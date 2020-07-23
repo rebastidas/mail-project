@@ -1,0 +1,60 @@
+{% extends "mail/layout.html" %}
+{% load static %}
+
+{% block body %}
+<h2>{{ request.user.email }}</h2>
+
+<button class="btn btn-sm btn-outline-primary" id="inbox">Inbox</button>
+<button class="btn btn-sm btn-outline-primary" id="compose">Compose</button>
+<button class="btn btn-sm btn-outline-primary" id="sent">Sent</button>
+<button class="btn btn-sm btn-outline-primary" id="archived">Archived</button>
+<a class="btn btn-sm btn-outline-primary" href="{% url 'logout' %}">Log Out</a>
+<hr>
+
+<div id="emails-view">
+
+</div>
+
+<div id="compose-view">
+    <h3>New Email</h3>
+    <form id="compose-form">
+        <div class="form-group">
+            From: <input disabled class="form-control" value="{{ request.user.email }}">
+        </div>
+        <div class="form-group">
+            To: <input id="compose-recipients" class="form-control" required oninvalid="this.setCustomValidity('At least one recipient required.')">
+        </div>
+        <div class="form-group">
+            <input class="form-control" id="compose-subject" placeholder="Subject">
+        </div>
+        <textarea class="form-control" id="compose-body" placeholder="Body" autofocus></textarea>
+        <input type="submit" class="btn btn-primary mt-3" />
+    </form>
+</div>
+
+<div id="view-email-complete">
+    <div class="email-hd">
+        <div class="mt-4">
+            <h3 id="email-subject" class="pl-4"></h3>
+        </div>
+
+        <div id="email-information" class="pl-4 d-flex justify-content-between mt-5">
+            <div>
+                <p class="m-0"><strong>To: </strong><span class="recipient"></span></p>
+                <p class="m-0"><strong>From: </strong><span class="sender"></span></p>
+            </div>
+            <span class="tsp justify-content-end"></span>
+        </div>
+
+        <div class="email-body pl-4 mt-5"></div>
+        <div class="d-flex pl-4 mt-5">
+            <button class="btn btn-primary mt-3 ml-2" id="archv"></button>
+            <button class="btn btn-primary mt-3 ml-2" id="reply">Reply</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'mail/inbox.js' %}"></script>
+{% endblock %}
